@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8052ead05f6b4ab5ab3d6443bdbe4cce" Name="Diagram1">
+        <EntityTypeShape EntityType="denemeModel.Bolum" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="denemeModel.DısHekimi" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="denemeModel.Hasta" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="denemeModel.Islemler" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="denemeModel.Randevu" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="denemeModel.FK_Bolum_DısHekimi" ManuallyRouted="false" />
+        <AssociationConnector Association="denemeModel.FK_Randevu_Hasta" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

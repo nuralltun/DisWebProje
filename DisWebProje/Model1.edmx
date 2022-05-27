@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="denemeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bolum">
+          <Key>
+            <PropertyRef Name="BolumId" />
+          </Key>
+          <Property Name="BolumId" Type="int" Nullable="false" />
+          <Property Name="BolumAd" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="DısHekimi">
+          <Key>
+            <PropertyRef Name="DoktorId" />
+          </Key>
+          <Property Name="DoktorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DoktorAd" Type="nvarchar" MaxLength="50" />
+          <Property Name="DoktorSoyad" Type="nvarchar" MaxLength="50" />
+          <Property Name="Bolum" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Hasta">
+          <Key>
+            <PropertyRef Name="HastaTc" />
+          </Key>
+          <Property Name="HastaTc" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="HastaAd" Type="nvarchar" MaxLength="50" />
+          <Property Name="HastaSoyad" Type="nvarchar" MaxLength="50" />
+          <Property Name="HastaYas" Type="int" />
+          <Property Name="TelNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="Mail" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Islemler">
+          <Key>
+            <PropertyRef Name="IslemId" />
+          </Key>
+          <Property Name="IslemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IslemAdı" Type="nvarchar" MaxLength="50" />
+          <Property Name="IslemUcret" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'deneme.dbo.Randevu' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Randevu">
+          <Key>
+            <PropertyRef Name="HastaTc" />
+          </Key>
+          <Property Name="HastaAdi" Type="nvarchar" MaxLength="50" />
+          <Property Name="HastaTc" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="DoktorAdi" Type="nvarchar" MaxLength="50" />
+          <Property Name="Islem" Type="nvarchar" MaxLength="50" />
+          <Property Name="Tarih" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_Bolum_DısHekimi">
+          <End Role="DısHekimi" Type="Self.DısHekimi" Multiplicity="1" />
+          <End Role="Bolum" Type="Self.Bolum" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DısHekimi">
+              <PropertyRef Name="DoktorId" />
+            </Principal>
+            <Dependent Role="Bolum">
+              <PropertyRef Name="BolumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Randevu_Hasta">
+          <End Role="Hasta" Type="Self.Hasta" Multiplicity="1" />
+          <End Role="Randevu" Type="Self.Randevu" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Hasta">
+              <PropertyRef Name="HastaTc" />
+            </Principal>
+            <Dependent Role="Randevu">
+              <PropertyRef Name="HastaTc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="denemeModelStoreContainer">
+          <EntitySet Name="Bolum" EntityType="Self.Bolum" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DısHekimi" EntityType="Self.DısHekimi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hasta" EntityType="Self.Hasta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Islemler" EntityType="Self.Islemler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Randevu" EntityType="Self.Randevu" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Randevu].[HastaAdi] AS [HastaAdi], 
+    [Randevu].[HastaTc] AS [HastaTc], 
+    [Randevu].[DoktorAdi] AS [DoktorAdi], 
+    [Randevu].[Islem] AS [Islem], 
+    [Randevu].[Tarih] AS [Tarih]
+    FROM [dbo].[Randevu] AS [Randevu]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Bolum_DısHekimi" Association="Self.FK_Bolum_DısHekimi">
+            <End Role="DısHekimi" EntitySet="DısHekimi" />
+            <End Role="Bolum" EntitySet="Bolum" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Randevu_Hasta" Association="Self.FK_Randevu_Hasta">
+            <End Role="Hasta" EntitySet="Hasta" />
+            <End Role="Randevu" EntitySet="Randevu" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="denemeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Bolum">
+          <Key>
+            <PropertyRef Name="BolumId" />
+          </Key>
+          <Property Name="BolumId" Type="Int32" Nullable="false" />
+          <Property Name="BolumAd" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="DısHekimi" Relationship="Self.FK_Bolum_DısHekimi" FromRole="Bolum" ToRole="DısHekimi" />
+        </EntityType>
+        <EntityType Name="DısHekimi">
+          <Key>
+            <PropertyRef Name="DoktorId" />
+          </Key>
+          <Property Name="DoktorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DoktorAd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DoktorSoyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Bolum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Bolum1" Relationship="Self.FK_Bolum_DısHekimi" FromRole="DısHekimi" ToRole="Bolum" />
+        </EntityType>
+        <EntityType Name="Hasta">
+          <Key>
+            <PropertyRef Name="HastaTc" />
+          </Key>
+          <Property Name="HastaTc" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="HastaAd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HastaSoyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HastaYas" Type="Int32" />
+          <Property Name="TelNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Randevu" Relationship="Self.FK_Randevu_Hasta" FromRole="Hasta" ToRole="Randevu" />
+        </EntityType>
+        <EntityType Name="Islemler">
+          <Key>
+            <PropertyRef Name="IslemId" />
+          </Key>
+          <Property Name="IslemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IslemAdı" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IslemUcret" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Randevu">
+          <Key>
+            <PropertyRef Name="HastaTc" />
+          </Key>
+          <Property Name="HastaAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HastaTc" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="DoktorAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Islem" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Tarih" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Hasta" Relationship="Self.FK_Randevu_Hasta" FromRole="Randevu" ToRole="Hasta" />
+        </EntityType>
+        <Association Name="FK_Bolum_DısHekimi">
+          <End Role="DısHekimi" Type="Self.DısHekimi" Multiplicity="1" />
+          <End Role="Bolum" Type="Self.Bolum" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DısHekimi">
+              <PropertyRef Name="DoktorId" />
+            </Principal>
+            <Dependent Role="Bolum">
+              <PropertyRef Name="BolumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Randevu_Hasta">
+          <End Role="Hasta" Type="Self.Hasta" Multiplicity="1" />
+          <End Role="Randevu" Type="Self.Randevu" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Hasta">
+              <PropertyRef Name="HastaTc" />
+            </Principal>
+            <Dependent Role="Randevu">
+              <PropertyRef Name="HastaTc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="denemeEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bolum" EntityType="Self.Bolum" />
+          <EntitySet Name="DısHekimi" EntityType="Self.DısHekimi" />
+          <EntitySet Name="Hasta" EntityType="Self.Hasta" />
+          <EntitySet Name="Islemler" EntityType="Self.Islemler" />
+          <EntitySet Name="Randevu" EntityType="Self.Randevu" />
+          <AssociationSet Name="FK_Bolum_DısHekimi" Association="Self.FK_Bolum_DısHekimi">
+            <End Role="DısHekimi" EntitySet="DısHekimi" />
+            <End Role="Bolum" EntitySet="Bolum" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Randevu_Hasta" Association="Self.FK_Randevu_Hasta">
+            <End Role="Hasta" EntitySet="Hasta" />
+            <End Role="Randevu" EntitySet="Randevu" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="denemeModelStoreContainer" CdmEntityContainer="denemeEntities1">
+          <EntitySetMapping Name="Bolum">
+            <EntityTypeMapping TypeName="denemeModel.Bolum">
+              <MappingFragment StoreEntitySet="Bolum">
+                <ScalarProperty Name="BolumId" ColumnName="BolumId" />
+                <ScalarProperty Name="BolumAd" ColumnName="BolumAd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DısHekimi">
+            <EntityTypeMapping TypeName="denemeModel.DısHekimi">
+              <MappingFragment StoreEntitySet="DısHekimi">
+                <ScalarProperty Name="DoktorId" ColumnName="DoktorId" />
+                <ScalarProperty Name="DoktorAd" ColumnName="DoktorAd" />
+                <ScalarProperty Name="DoktorSoyad" ColumnName="DoktorSoyad" />
+                <ScalarProperty Name="Bolum" ColumnName="Bolum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hasta">
+            <EntityTypeMapping TypeName="denemeModel.Hasta">
+              <MappingFragment StoreEntitySet="Hasta">
+                <ScalarProperty Name="HastaTc" ColumnName="HastaTc" />
+                <ScalarProperty Name="HastaAd" ColumnName="HastaAd" />
+                <ScalarProperty Name="HastaSoyad" ColumnName="HastaSoyad" />
+                <ScalarProperty Name="HastaYas" ColumnName="HastaYas" />
+                <ScalarProperty Name="TelNo" ColumnName="TelNo" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Islemler">
+            <EntityTypeMapping TypeName="denemeModel.Islemler">
+              <MappingFragment StoreEntitySet="Islemler">
+                <ScalarProperty Name="IslemId" ColumnName="IslemId" />
+                <ScalarProperty Name="IslemAdı" ColumnName="IslemAdı" />
+                <ScalarProperty Name="IslemUcret" ColumnName="IslemUcret" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Randevu">
+            <EntityTypeMapping TypeName="denemeModel.Randevu">
+              <MappingFragment StoreEntitySet="Randevu">
+                <ScalarProperty Name="HastaAdi" ColumnName="HastaAdi" />
+                <ScalarProperty Name="HastaTc" ColumnName="HastaTc" />
+                <ScalarProperty Name="DoktorAdi" ColumnName="DoktorAdi" />
+                <ScalarProperty Name="Islem" ColumnName="Islem" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
